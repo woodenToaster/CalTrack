@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_ingredient') }}" method="post" class="add-entry">
+      <dl>
+        <dt>Name:
+        <dd><input type="text" size=30 name="name">
+        <dt>Calories:
+        <dd><input type="text" size=30 name="calories">
+        <dt>Protein:
+        <dd><input type="text" size=30 name="protein">
+        <dt>Carbs:
+        <dd><input type="text" size=30 name="carbs">
+        <dt>Fat:
+        <dd><input type="text" size=30 name="fat">
+        <dt>Fiber:
+        <dd><input type="text" size=30 name="fiber">
+        <dd><input type="submit" value="Share">
+      </dl>
+    </form>
+  {% endif %}
+  <ul class="ingredients">
+  {% for ingredient in ingredients %}
+    <li><h2>{{ ingredient.name }}</h2>{{ ingredient.calories|safe }}
+  {% else %}
+    <li><em>No ingredients yet.</em>
+  {% endfor %}
+  </ul
+{% endblock %}

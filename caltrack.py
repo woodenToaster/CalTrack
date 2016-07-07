@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, g
+from flask import Flask, g, render_template, request, session, url_for, redirect, abort, flash
 
 app = Flask(__name__)
 app.config.from_object(__name__)
@@ -53,10 +53,49 @@ def close_db(error):
 
 
 @app.route('/')
-def hello_caltrack():
-    return 'Hello CalTrack!'
+def show_ingredients():
+    db = get_db()
+    cur = db.execute('select name, calories from ingredients')
+    ingredients = cur.fetchall()
+    return render_template('show_ingredients.html', ingredients=ingredients)
 
 
-@app.route('/add/<ingredient>')
-def add_ingredient(ingredient):
-    return "You added " + ingredient
+@app.route('/add', methods=['POST'])
+def add_ingredient():
+    if not session.get('logged_in'):
+        abort(401)
+    db = get_db()
+    insert_stmt = 'insert into ingredients '
+    insert_stmt += '(name, calories, protein, carbs, fat, fiber) '
+    insert_stmt += 'values (?, ?, ?, ?, ?, ?)'
+    db.execute(
+        insert_stmt,
+        [request.form['name'], request.form['calories'], request.form['protein'],
+         request.form['carbs'], request.form['fat'], request.form['fiber']]
+    )
+    db.commit()
+    flash('New entry was successfully posted')
+    return redirect(url_for('show_ingredients'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['USERNAME']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['PASSWORD']:
+            error = 'Invalid password'
+        else:
+            session['logged_in'] = True
+            flash('You were logged in')
+            return redirect(url_for('show_ingredients'))
+    return render_template('login.html', error=error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged_in', None)
+    flash('You were logged out')
+    return redirect(url_for('show_ingredients'))
+
