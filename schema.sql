@@ -6,5 +6,6 @@ create table ingredients (
   protein integer not null,
   carbs integer not null,
   fat integer not null,
-  fiber integer not null
+  fiber integer not null,
+  serving_size text not null
 );

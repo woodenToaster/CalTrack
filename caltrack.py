@@ -55,7 +55,7 @@ def close_db(error):
 @app.route('/')
 def show_ingredients():
     db = get_db()
-    cur = db.execute('select name, calories from ingredients')
+    cur = db.execute('select name, calories, protein, carbs, fat, fiber, serving_size from ingredients')
     ingredients = cur.fetchall()
     return render_template('show_ingredients.html', ingredients=ingredients)
 
@@ -66,12 +66,13 @@ def add_ingredient():
         abort(401)
     db = get_db()
     insert_stmt = 'insert into ingredients '
-    insert_stmt += '(name, calories, protein, carbs, fat, fiber) '
-    insert_stmt += 'values (?, ?, ?, ?, ?, ?)'
+    insert_stmt += '(name, calories, protein, carbs, fat, fiber, serving_size) '
+    insert_stmt += 'values (?, ?, ?, ?, ?, ?, ?)'
     db.execute(
         insert_stmt,
         [request.form['name'], request.form['calories'], request.form['protein'],
-         request.form['carbs'], request.form['fat'], request.form['fiber']]
+         request.form['carbs'], request.form['fat'], request.form['fiber'],
+         request.form['serving_size']]
     )
     db.commit()
     flash('New entry was successfully posted')

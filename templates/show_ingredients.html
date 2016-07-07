@@ -15,15 +15,36 @@
         <dd><input type="text" size=30 name="fat">
         <dt>Fiber:
         <dd><input type="text" size=30 name="fiber">
+        <dt>Serving Size:
+        <dd><input type="text" size=30 name="serving_size">
         <dd><input type="submit" value="Share">
       </dl>
     </form>
   {% endif %}
-  <ul class="ingredients">
+  <table class="ingredients">
+    <tr>
+      <th>Ingredient</th>
+      <th>Calories</th>
+      <th>Protein</th>
+      <th>Carbs</th>
+      <th>Fat</th>
+      <th>Fiber</th>
+      <th>Serving Size</th>
+    </tr>
   {% for ingredient in ingredients %}
-    <li><h2>{{ ingredient.name }}</h2>{{ ingredient.calories|safe }}
+    <tr>
+      <td>{{ ingredient.name }}</td>
+      <td>{{ ingredient.calories }}</td>
+      <td>{{ ingredient.protein }}</td>
+      <td>{{ ingredient.carbs }}</td>
+      <td>{{ ingredient.fat }}</td>
+      <td>{{ ingredient.fiber }}</td>
+      <td>{{ ingredient.serving_size }}</td>
+    <tr>
   {% else %}
-    <li><em>No ingredients yet.</em>
+    <tr>
+      <td>No ingredients yet.</td>
+    </tr>
   {% endfor %}
-  </ul
+  </table>
 {% endblock %}

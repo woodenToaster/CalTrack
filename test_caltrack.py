@@ -52,7 +52,6 @@ class CalTrackTestCase(unittest.TestCase):
             'fiber': '4'
         }
         rv = self.app.post('/add', data=data, follow_redirects=True)
-        print(rv.data)
         assert b'No ingredients yet' not in rv.data
         assert b'broccoli' in rv.data
         assert b'50' in rv.data
