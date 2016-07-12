@@ -19,11 +19,12 @@ recipes_ingredients = db.Table(
 class Recipe(db.Model):
     recipe_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=True)
-    ingredients = db.relationship(
-        'Ingredient',
-        secondary=recipes_ingredients,
-        backref='recipes'
-    )
+    ingredients = db.relationship('Ingredient', secondary=recipes_ingredients,
+                                  backref=db.backref('recipes', lazy='dynamic'))
+
+    def __init__(self, name, ingredients):
+        self.name = name
+        self.ingredients = ingredients
 
     def __repr__(self):
         return "<Recipe {}>".format(self.name)
@@ -38,7 +39,6 @@ class Ingredient(db.Model):
     fat = db.Column(db.Integer, nullable=False)
     fiber = db.Column(db.Integer, nullable=False)
     serving_size = db.Column(db.String(60), nullable=False)
-    recipes = db.relationship('Recipe', secondary=recipes_ingredients)
 
     def __repr__(self):
         return "<Ingredient {}>".format(self.name)
