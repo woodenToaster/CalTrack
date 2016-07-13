@@ -79,12 +79,16 @@ def add_ingredient():
     insert_stmt = 'insert into ingredients '
     insert_stmt += '(name, calories, protein, carbs, fat, fiber, serving_size) '
     insert_stmt += 'values (?, ?, ?, ?, ?, ?, ?)'
-    db.execute(
-        insert_stmt,
-        [request.form['name'], request.form['calories'], request.form['protein'],
-         request.form['carbs'], request.form['fat'], request.form['fiber'],
-         request.form['serving_size']]
+    ingr = Ingredient(
+        name=request.form['name'],
+        calories=request.form['calories'],
+        protein=request.form['protein'],
+        carbs=request.form['carbs'],
+        fat=request.form['fat'],
+        fiber=request.form['fiber'],
+        serving_size=request.form['serving_size']
     )
-    db.commit()
+    db.session.add(ingr)
+    db.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_ingredients'))
