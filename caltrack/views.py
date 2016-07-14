@@ -1,8 +1,10 @@
+from datetime import datetime
+
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import login_user, logout_user, current_user, login_required
 from caltrack import app, db, lm, oid
 from .forms import LoginForm
-from .models import User, Ingredient
+from .models import User, Ingredient, Tracker
 
 # @app.route('/')
 # @app.route('/index')
@@ -24,7 +26,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_ingredients'))
+            return redirect(url_for('today'))
     return render_template('login.html', error=error)
 
 
@@ -92,3 +94,17 @@ def add_ingredient():
     db.session.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_ingredients'))
+
+
+@login_required
+@app.route('/today')
+def today():
+    date = datetime.today().date()
+    # Try to get today's Tracker from the db
+    current_tracker = Tracker.query.filter_by(date=date).first()
+    if current_tracker is None:
+        # Add a Tracker for today to the db
+        current_tracker = Tracker(date=date)
+        db.session.add(current_tracker)
+        db.session.commit()
+    return render_template('today.html', current_tracker=current_tracker)

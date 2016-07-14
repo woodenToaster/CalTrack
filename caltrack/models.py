@@ -1,5 +1,3 @@
-import datetime
-
 from caltrack import db
 
 
@@ -37,16 +35,16 @@ recipes_ingredients = db.Table(
 )
 
 
-dailyTracker_recipes = db.Table(
-    'dailyTracker_recipes',
-    db.Column('dt_id', db.Integer, db.ForeignKey('dailytracker.dt_id')),
+tracker_recipes = db.Table(
+    'tracker_recipes',
+    db.Column('dt_id', db.Integer, db.ForeignKey('tracker.dt_id')),
     db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.recipe_id'))
 )
 
 
-dailyTracker_ingredients = db.Table(
-    'dailyTracker_ingredients',
-    db.Column('dt_id', db.Integer, db.ForeignKey('dailytracker.dt_id')),
+tracker_ingredients = db.Table(
+    'tracker_ingredients',
+    db.Column('dt_id', db.Integer, db.ForeignKey('tracker.dt_id')),
     db.Column('ingr_id', db.Integer, db.ForeignKey('ingredient.ingr_id'))
 )
 
@@ -54,8 +52,10 @@ dailyTracker_ingredients = db.Table(
 class Recipe(db.Model):
     recipe_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=True)
-    ingredients = db.relationship('Ingredient', secondary=recipes_ingredients,
-                                  backref=db.backref('recipes', lazy='dynamic'))
+    ingredients = db.relationship(
+        'Ingredient',
+        secondary=recipes_ingredients,
+        backref=db.backref('recipes', lazy='dynamic'))
 
     def __init__(self, name, ingredients):
         self.name = name
@@ -79,17 +79,19 @@ class Ingredient(db.Model):
         return "<Ingredient {}>".format(self.name)
 
 
-class DailyTracker(db.Model):
+class Tracker(db.Model):
     dt_id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
-    recipes = db.relationship('Recipe', secondary=dailyTracker_recipes,
-                              backref=db.backref('daily_trackers'), lazy='dynamic')
-    ingredients = db.relationship('Ingredient', secondary=dailyTracker_ingredients,
-                                  backref=db.backref('daily_trackers', lazy='dynamic'))
-
-    def __init__(self, recipes):
-        self.date = datetime.date()
-        self.recipes = recipes
+    recipes = db.relationship(
+        'Recipe',
+        secondary=tracker_recipes,
+        backref=db.backref('trackers', lazy='dynamic')
+    )
+    ingredients = db.relationship(
+        'Ingredient',
+        secondary=tracker_ingredients,
+        backref=db.backref('daily_trackers', lazy='dynamic'),
+    )
 
     def __repr__(self):
-        return "<DailyTracker {}".format(self.date)
+        return "<Tracker {}>".format(self.date)
