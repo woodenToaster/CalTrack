@@ -1,6 +1,42 @@
 {% extends "layout.html" %}
 {% block body %}
-<div>{{ current_tracker.date.year }}</div>
-<div>{{ current_tracker.date.month }}</div>
-<div>{{ current_tracker.date.day }}</div>
+<script type="text/javascript">
+  $(function() {
+    $( "#add_ingredient" ).autocomplete({
+      source: function(request, response) {
+        $.getJSON($SCRIPT_ROOT + "/search_ingredients", {
+          search: request
+        }, response);
+      }
+    });
+  });
+</script>
+
+<h1>{{ "Tracker for {}-{}".format(month, day) }}</h1>
+<div class="ui-widget">
+  <label for="add_ingredient">Add a Food: </label>
+  <input id="add_ingredient", name="add_ingredient"/>
+</div>
+<table class="ingredients">
+  <tr>
+    <th>Ingredient</th>
+    <th>Serving Size</th>
+    <th>Calories</th>
+    <th>Protein</th>
+    <th>Carbs</th>
+    <th>Fat</th>
+    <th>Fiber</th>
+  </tr>
+  {% for ingredient in ingredients %}
+    <tr>
+      <td>{{ ingredient.name }}</td>
+      <td>{{ ingredient.serving_size }}</td>
+      <td>{{ ingredient.calories }}</td>
+      <td>{{ ingredient.protein }}</td>
+      <td>{{ ingredient.carbs }}</td>
+      <td>{{ ingredient.fat }}</td>
+      <td>{{ ingredient.fiber }}</td>
+    <tr>
+  {% endfor %}
+</table>
 {% endblock %}

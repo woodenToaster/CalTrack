@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from flask import render_template, flash, redirect, session, url_for, request, g
-from flask_login import login_user, logout_user, current_user, login_required
+from flask_login import current_user, login_required
+from flask.json import jsonify
 from caltrack import app, db, lm, oid
-from .forms import LoginForm
+from .forms import AddIngredientForm
 from .models import User, Ingredient, Tracker
 
 # @app.route('/')
@@ -74,26 +75,28 @@ def show_ingredients():
     return render_template('show_ingredients.html', ingredients=ingredients)
 
 
-@app.route('/add', methods=['POST'])
+@app.route('/add', methods=['POST', 'GET'])
 def add_ingredient():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
-    insert_stmt = 'insert into ingredients '
-    insert_stmt += '(name, calories, protein, carbs, fat, fiber, serving_size) '
-    insert_stmt += 'values (?, ?, ?, ?, ?, ?, ?)'
-    ingr = Ingredient(
-        name=request.form['name'],
-        calories=request.form['calories'],
-        protein=request.form['protein'],
-        carbs=request.form['carbs'],
-        fat=request.form['fat'],
-        fiber=request.form['fiber'],
-        serving_size=request.form['serving_size']
-    )
-    db.session.add(ingr)
-    db.session.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('show_ingredients'))
+
+    form = AddIngredientForm(request.form)
+    if request.method == 'POST' and form.validate():
+        ingr = Ingredient(
+            name=form.name.data.lower(),
+            calories=form.calories.data,
+            protein=form.protein.data,
+            carbs=form.carbs.data,
+            fat=form.fat.data,
+            fiber=form.fiber.data,
+            serving_size=form.serving_size.data,
+            unit=form.unit.data
+        )
+        db.session.add(ingr)
+        db.session.commit()
+        flash('New ingredient was successfully added')
+        return redirect(url_for('today'))
+    return render_template('add_ingredient.html', form=form)
 
 
 @login_required
@@ -107,4 +110,17 @@ def today():
         current_tracker = Tracker(date=date)
         db.session.add(current_tracker)
         db.session.commit()
-    return render_template('today.html', current_tracker=current_tracker)
+    ingredients = [x for x in current_tracker.ingredients]
+    day = current_tracker.date.day
+    month = current_tracker.date.month
+    return render_template('today.html', ingredients=ingredients, day=day, month=month)
+
+
+@app.route('/search_ingredients')
+def search_ingredients():
+    search = request.args.get('search[term]')
+    print(search)
+    results = db.session.query(Ingredient).filter(Ingredient.name.like('%{}%'.format(search))).all()
+    matches = [x.name for x in results]
+    print(matches)
+    return jsonify(matches)

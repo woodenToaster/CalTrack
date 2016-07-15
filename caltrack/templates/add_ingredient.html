@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% from "_formhelpers.html" import render_field %}
+  <form action="/add" method="post" class="add-ingr">
+    <dl>
+      {{ form.hidden_tag() }}
+      {{ render_field(form.name) }}
+      {{ render_field(form.calories) }}
+      {{ render_field(form.protein) }}
+      {{ render_field(form.carbs) }}
+      {{ render_field(form.fat) }}
+      {{ render_field(form.fiber) }}
+      {{ render_field(form.serving_size) }}
+      {{ render_field(form.unit) }}
+      <p><input type="submit" value="Add Ingredient"></p>
+    </dl>
+  </form>
+{% endblock %}

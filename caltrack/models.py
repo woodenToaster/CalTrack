@@ -68,12 +68,13 @@ class Recipe(db.Model):
 class Ingredient(db.Model):
     ingr_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False, unique=True)
-    calories = db.Column(db.Integer, nullable=False)
-    protein = db.Column(db.Integer, nullable=False)
-    carbs = db.Column(db.Integer, nullable=False)
-    fat = db.Column(db.Integer, nullable=False)
-    fiber = db.Column(db.Integer, nullable=False)
-    serving_size = db.Column(db.String(60), nullable=False)
+    calories = db.Column(db.Float, nullable=False)
+    protein = db.Column(db.Float, nullable=False)
+    carbs = db.Column(db.Float, nullable=False)
+    fat = db.Column(db.Float, nullable=False)
+    fiber = db.Column(db.Float, nullable=False)
+    serving_size = db.Column(db.Float(60), nullable=False)
+    unit = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
         return "<Ingredient {}>".format(self.name)
