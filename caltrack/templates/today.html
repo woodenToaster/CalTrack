@@ -2,21 +2,20 @@
 {% block body %}
 <script type="text/javascript">
   $(function() {
-    $( "#add_ingredient" ).autocomplete({
+    $( "#search_ingredients" ).autocomplete({
       source: function(request, response) {
         $.getJSON($SCRIPT_ROOT + "/search_ingredients", {
-          search: request
-        }, response);
-      }
+            search: request
+          }, response);
+      },
+      appendTo: "#results",
     });
   });
 </script>
 
 <h1>{{ "Tracker for {}-{}".format(month, day) }}</h1>
-<div class="ui-widget">
-  <label for="add_ingredient">Add a Food: </label>
-  <input id="add_ingredient", name="add_ingredient"/>
-</div>
+<input type="text" id="search_ingredients" />
+<div id="results"></div>
 <table class="ingredients">
   <tr>
     <th>Ingredient</th>

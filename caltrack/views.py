@@ -70,9 +70,8 @@ def before_request():
 
 
 @app.route('/')
-def show_ingredients():
-    ingredients = Ingredient.query.all()
-    return render_template('show_ingredients.html', ingredients=ingredients)
+def index():
+    return redirect(url_for('login'))
 
 
 @app.route('/add', methods=['POST', 'GET'])
