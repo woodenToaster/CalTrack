@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
   {% from "_formhelpers.html" import render_field %}
-  <form action="/add" method="post" class="add-ingr">
+  <form action="/add_ingredient" method="post" class="add-ingr">
     <dl>
       {{ form.hidden_tag() }}
       {{ render_field(form.name) }}

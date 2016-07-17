@@ -96,3 +96,27 @@ class Tracker(db.Model):
 
     def __repr__(self):
         return "<Tracker {}>".format(self.date)
+
+    def get_totals(self):
+        return {
+            'calories': self.get_total_calories(),
+            'protein': self.get_total_protein(),
+            'carbs': self.get_total_carbs(),
+            'fat': self.get_total_fat(),
+            'fiber': self.get_total_fiber()
+        }
+
+    def get_total_calories(self):
+        return sum(x.calories for x in self.ingredients)
+
+    def get_total_protein(self):
+        return sum(x.protein for x in self.ingredients)
+
+    def get_total_carbs(self):
+        return sum(x.carbs for x in self.ingredients)
+
+    def get_total_fat(self):
+        return sum(x.fat for x in self.ingredients)
+
+    def get_total_fiber(self):
+        return sum(x.fiber for x in self.ingredients)

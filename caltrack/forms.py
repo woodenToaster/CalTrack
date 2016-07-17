@@ -19,3 +19,7 @@ class AddIngredientForm(Form):
     choices = ['oz', 'cup', 'gram', 'tablespoon', 'teaspoon', 'other']
     choices = [(c, c) for c in choices]
     unit = SelectField('unit', validators=[InputRequired()], choices=choices)
+
+
+class AddToTrackerForm(Form):
+    name = StringField('name', validators=[InputRequired()])

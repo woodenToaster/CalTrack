@@ -7,13 +7,6 @@ from caltrack import app, db, lm, oid
 from .forms import AddIngredientForm
 from .models import User, Ingredient, Tracker
 
-# @app.route('/')
-# @app.route('/index')
-# @login_required
-# def index():
-#     user = g.user
-#     return render_template('index.html', title='Home', user=user)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 @oid.loginhandler
@@ -36,27 +29,6 @@ def load_user(id):
     return User.query.get(int(id))
 
 
-# @oid.after_login
-# def after_login(resp):
-#     if resp.email is None or resp.email == "":
-#         flash('Invalid login. Please try again.')
-#         return redirect(url_for('login'))
-#     user = User.query.filter_by(emial=resp.email).first()
-#     if user is None:
-#         username = resp.username
-#         if username is None or username == "":
-#             username = resp.email.split('@')[0]
-#         user = User(username=username, email=resp.email)
-#         db.session.add(user)
-#         db.session.commit()
-#     remember_me = False
-#     if 'remember_me' in session:
-#         remember_me = session['remember_me']
-#         session.pop('remember_me', None)
-#     login_user(user, remember=remember_me)
-#     return redirect(request.args.get('next') or url_for('index'))
-
-
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)
@@ -74,7 +46,7 @@ def index():
     return redirect(url_for('login'))
 
 
-@app.route('/add', methods=['POST', 'GET'])
+@app.route('/add_ingredient', methods=['POST', 'GET'])
 def add_ingredient():
     if not session.get('logged_in'):
         return redirect(url_for('login'))
@@ -112,7 +84,13 @@ def today():
     ingredients = [x for x in current_tracker.ingredients]
     day = current_tracker.date.day
     month = current_tracker.date.month
-    return render_template('today.html', ingredients=ingredients, day=day, month=month)
+    return render_template(
+        'today.html',
+        ingredients=ingredients,
+        day=day,
+        month=month,
+        totals=current_tracker.get_totals()
+    )
 
 
 @app.route('/search_ingredients')
@@ -123,3 +101,22 @@ def search_ingredients():
     matches = [x.name for x in results]
     print(matches)
     return jsonify(matches)
+
+
+@app.route('/add_to_tracker', methods=['POST'])
+def add_to_tracker():
+    name = request.form['name']
+    ingr = Ingredient.query.filter_by(name=name).first()
+    if ingr:
+        # Add to today's Tracker
+        date = datetime.today().date()
+        current_tracker = Tracker.query.filter_by(date=date).first()
+        if current_tracker is None:
+            raise Exception("Tracker for {} doesn't exist".format(date))
+        else:
+            current_tracker.ingredients.append(ingr)
+            db.session.commit()
+            return redirect(url_for('today'))
+    else:
+        # Add to database and today's tracker
+        return redirect(url_for('add_ingredient'))

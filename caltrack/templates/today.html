@@ -14,7 +14,10 @@
 </script>
 
 <h1>{{ "Tracker for {}-{}".format(month, day) }}</h1>
-<input type="text" id="search_ingredients" />
+<form action="/add_to_tracker" method="post" class="add_ingr">
+  <input type="text" id="search_ingredients" name="name"/>
+  <p><input type="submit" value="Add"/></p>
+</form>
 <div id="results"></div>
 <table class="ingredients">
   <tr>
@@ -37,5 +40,14 @@
       <td>{{ ingredient.fiber }}</td>
     <tr>
   {% endfor %}
+  <tr>
+    <td>Totals</td>
+    <td></td>
+    <td>{{ totals.calories }}</td>
+    <td>{{ totals.protein }}</td>
+    <td>{{ totals.carbs }}</td>
+    <td>{{ totals.fat }}</td>
+    <td>{{ totals.fiber }}</td>
+  </tr>
 </table>
 {% endblock %}
