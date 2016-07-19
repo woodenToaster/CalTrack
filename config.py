@@ -11,3 +11,6 @@ SECRET_KEY = 'simple'
 
 USERNAME = 'chris'
 PASSWORD = 'hi'
+
+TEST_USERNAME = 'test_user'
+TEST_PASSWORD = 'pw'

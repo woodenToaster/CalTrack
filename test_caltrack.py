@@ -3,6 +3,9 @@ import unittest
 
 from config import basedir
 from caltrack import app, db
+from caltrack.models import Ingredient
+
+from populate_db import populate_ingredients
 
 
 class CalTrackTestCase(unittest.TestCase):
@@ -18,10 +21,6 @@ class CalTrackTestCase(unittest.TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_empty_db(self):
-        rv = self.app.get('/')
-        assert b'No ingredients yet' in rv.data
-
     def login(self, username, password):
         data = {
             'username': username,
@@ -32,30 +31,20 @@ class CalTrackTestCase(unittest.TestCase):
     def logout(self):
         return self.app.get('/logout', follow_redirects=True)
 
-    def test_login_logout(self):
-        rv = self.login('chris', 'hi')
-        assert b'You were logged in' in rv.data
-        rv = self.logout()
-        assert b'You were logged out' in rv.data
-        rv = self.login('adminx', 'default')
-        assert b'Invalid username' in rv.data
-        rv = self.login('admin', 'defaultx')
-        # assert b'Invalid password' in rv.data
+    def test_login(self):
+        response = self.login('test_user', 'pw')
+        self.assertTrue("You were logged in" in response.get_data(as_text=True))
 
-    def test_messages(self):
-        self.login('chris', 'hi')
-        data = {
-            'name': 'broccoli',
-            'calories': '50',
-            'protein': '4',
-            'carbs': '10',
-            'fat': '1',
-            'fiber': '4'
-        }
-        rv = self.app.post('/add', data=data, follow_redirects=True)
-        assert b'No ingredients yet' not in rv.data
-        # assert b'broccoli' in rv.data
-        # assert b'50' in rv.data
+    def test_populate_db(self):
+        ingr = Ingredient.query.filter_by(name='broccoli').first()
+        self.assertTrue(ingr is None)
+
+        populate_ingredients()
+
+        ingr = Ingredient.query.filter_by(name='broccoli').first()
+        self.assertTrue(ingr.name == 'broccoli')
+        ingr = Ingredient.query.filter_by(name='sweet potato, baked').first()
+        self.assertTrue(ingr.name == 'sweet potato, baked')
 
 if __name__ == '__main__':
     unittest.main()

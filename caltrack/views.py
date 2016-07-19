@@ -4,8 +4,24 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import current_user, login_required
 from flask.json import jsonify
 from caltrack import app, db, lm, oid
-from .forms import AddIngredientForm
+from .forms import AddIngredientForm, RegistrationForm
 from .models import User, Ingredient, Tracker
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        user = User(
+            username=form.username.data,
+            email=form.email.data
+        )
+        # TODO:  Check for user already in db
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('today'))
+    return "You're not registered."
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -13,9 +29,13 @@ from .models import User, Ingredient, Tracker
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] != app.config['USERNAME']:
+        valid_uname = request.form['username'] == app.config['USERNAME']
+        test_uname = request.form['username'] == app.config['TEST_USERNAME']
+        valid_pw = request.form['password'] == app.config['PASSWORD']
+        test_pw = request.form['password'] == app.config['TEST_PASSWORD']
+        if not (valid_uname or test_uname):
             error = 'Invalid username'
-        elif request.form['password'] != app.config['PASSWORD']:
+        elif not (valid_pw or test_pw):
             error = 'Invalid password'
         else:
             session['logged_in'] = True
