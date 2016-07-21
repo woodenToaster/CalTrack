@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import render_template, flash, redirect, session, url_for, request, g
 from flask_login import current_user, login_required
 from flask.json import jsonify
-from caltrack import app, db, lm, oid
+from caltrack import app, db, lm
 from .forms import AddIngredientForm, RegistrationForm
 from .models import User, Ingredient, Tracker
 
@@ -25,7 +25,6 @@ def register():
 
 
 @app.route('/login', methods=['GET', 'POST'])
-@oid.loginhandler
 def login():
     error = None
     if request.method == 'POST':

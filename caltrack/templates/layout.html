@@ -1,28 +1,39 @@
-<!doctype html>
+{% extends "bootstrap/base.html" %}
+
+{% block scripts %}
+{{ super() }}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="//code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-<link href="static/jquery-ui.css" rel="stylesheet" type="text/css" />
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-<title>CalTrack</title>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class="page">
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="static/jquery-ui.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+
+
+{% block title %}CalTrack{% endblock %}
+
+{%block body %}
+
+{% block navbar %}
+{% endblock %}
+
+<div class="container">
   <h1>CalTrack</h1>
-  <div class="metanav">
-  {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">log in</a>
-  {% else %}
-    <a href="{{ url_for('logout') }}">log out</a>
-  {% endif %}
-  </div>
+  <button type="button" class="btn btn-primary navbar-btn navbar-right">Sign In</button>
   <hr>
   {% with messages = get_flashed_messages() %}
     <ul>
     {% for message in messages %}
-      <li class="flash">{{ message }}</li>
+      <li>{{ message }}</li>
     </ul>
     {% endfor %}
   {% endwith %}
-  {% block body %}{% endblock %}
+  {% block content %}{% endblock %}
 </div>
+{% endblock %}

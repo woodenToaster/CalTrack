@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
-{% block body %}
+
+{% block scripts %}
+{{ super() }}
 <script type="text/javascript">
   $(function() {
     $( "#search_ingredients" ).autocomplete({
@@ -12,14 +14,21 @@
     });
   });
 </script>
+{% endblock %}
 
+{% block content %}
 <h1>{{ "Tracker for {}-{}".format(month, day) }}</h1>
-<form action="/add_to_tracker" method="post" class="add_ingr">
-  <input type="text" id="search_ingredients" name="name"/>
-  <p><input type="submit" value="Add"/></p>
+<form action="/add_to_tracker" method="post">
+  <div class="form-group">
+    <label for="search_ingredients">Search Foods</label>
+    <input type="text" id="search_ingredients" name="name" class="form-control"/>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary"/>Add</button>
+  </div>
 </form>
 <div id="results"></div>
-<table class="ingredients">
+<table class="table table-bordered table-striped">
   <tr>
     <th>Ingredient</th>
     <th>Serving Size</th>

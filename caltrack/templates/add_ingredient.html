@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block body %}
+{% block content %}
   {% from "_formhelpers.html" import render_field %}
   <form action="/add_ingredient" method="post" class="add-ingr">
     <dl>
@@ -12,7 +12,7 @@
       {{ render_field(form.fiber) }}
       {{ render_field(form.serving_size) }}
       {{ render_field(form.unit) }}
-      <p><input type="submit" value="Add Ingredient"></p>
+      <button type="submit" class="btn btn-primary">Add Ingredient></button>
     </dl>
   </form>
 {% endblock %}
