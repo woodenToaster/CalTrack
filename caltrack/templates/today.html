@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
-{% block scripts %}
-{{ super() }}
+{% block content %}
 <script type="text/javascript">
   $(function() {
     $( "#search_ingredients" ).autocomplete({
@@ -14,9 +13,7 @@
     });
   });
 </script>
-{% endblock %}
 
-{% block content %}
 <h1>{{ "Tracker for {}-{}".format(month, day) }}</h1>
 <form action="/add_to_tracker" method="post">
   <div class="form-group">

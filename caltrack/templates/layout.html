@@ -1,12 +1,6 @@
 {% extends "bootstrap/base.html" %}
 
 {% block scripts %}
-{{ super() }}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="//code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
-<script type=text/javascript>
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-</script>
 {% endblock %}
 
 {% block styles %}
@@ -14,18 +8,20 @@
 <link href="static/jquery-ui.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
-
-
 {% block title %}CalTrack{% endblock %}
 
 {%block body %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="//code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
 
 {% block navbar %}
 {% endblock %}
 
 <div class="container">
   <h1>CalTrack</h1>
-  <button type="button" class="btn btn-primary navbar-btn navbar-right">Sign In</button>
   <hr>
   {% with messages = get_flashed_messages() %}
     <ul>

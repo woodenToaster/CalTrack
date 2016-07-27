@@ -87,6 +87,83 @@ ingredients = [
         unit='g'
     ),
 
+    dict(
+        name='braggberry dressing',
+        calories=20,
+        protein=0,
+        carbs=5,
+        fat=0,
+        fiber=0,
+        serving_size=2,
+        unit='T'
+    ),
+
+    dict(
+        name='blue cheese',
+        calories=50,
+        protein=3,
+        carbs=.3,
+        fat=4,
+        fiber=0,
+        serving_size=14,
+        unit='g'
+    ),
+
+    dict(
+        name='asian eggplant',
+        calories=25,
+        protein=1,
+        carbs=6,
+        fat=0.2,
+        fiber=3,
+        serving_size=100,
+        unit='g'
+    ),
+
+    dict(
+        name='dark chocolate',
+        calories=60,
+        protein=1,
+        carbs=3,
+        fat=5.5,
+        fiber=1,
+        serving_size=1,
+        unit='square'
+    ),
+
+    dict(
+        name='ground turkey 93/7',
+        calories=160,
+        protein=22,
+        carbs=0,
+        fat=8,
+        fiber=0,
+        serving_size=4,
+        unit='oz'
+    ),
+
+    dict(
+        name='corn tortilla',
+        calories=50,
+        protein=2,
+        carbs=21,
+        fat=1,
+        fiber=3,
+        serving_size=1,
+        unit='tortilla'
+    ),
+
+    dict(
+        name='blue corn tortilla chips',
+        calories=140,
+        protein=2,
+        carbs=18,
+        fat=7,
+        fiber=1,
+        serving_size=28,
+        unit='g'
+    ),
+
     # dict(
     #     name=,
     #     calories=,
@@ -95,7 +172,17 @@ ingredients = [
     #     fat=,
     #     fiber=,
     #     serving_size=,
-    #     unit=
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
     # ),
 
     # dict(
@@ -106,7 +193,17 @@ ingredients = [
     #     fat=,
     #     fiber=,
     #     serving_size=,
-    #     unit=
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
     # ),
 
     # dict(
@@ -117,7 +214,17 @@ ingredients = [
     #     fat=,
     #     fiber=,
     #     serving_size=,
-    #     unit=
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
     # ),
 
     # dict(
@@ -128,6 +235,154 @@ ingredients = [
     #     fat=,
     #     fiber=,
     #     serving_size=,
-    #     unit=
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
+    # ),
+
+    # dict(
+    #     name=,
+    #     calories=,
+    #     protein=,
+    #     carbs=,
+    #     fat=,
+    #     fiber=,
+    #     serving_size=,
+    #     unit='square'
     # ),
 ]
